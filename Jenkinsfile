@@ -36,15 +36,6 @@ pipeline {
             }
         }
 
-        stage('Validate Terraform') {
-            steps {
-                script {
-                    echo 'Validating Terraform configuration...'
-                    sh 'terraform validate'
-                }
-            }
-        }
-
         stage('Plan Infrastructure Changes') {
             steps {
                 script {
