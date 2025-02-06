@@ -13,3 +13,13 @@ variable "ebs_size" {
 variable "key_name" {
   default = "mainkey"
 }
+
+variable "aws_region" {
+  description = "AWS region for deployment"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+}
