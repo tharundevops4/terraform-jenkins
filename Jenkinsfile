@@ -12,18 +12,17 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
 
-    triggers {
-        pollSCM('H/5 * * * *')   // Poll GitHub every 5 minutes for changes
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
                 script {
                     echo 'Checking out source code...'
-                    checkout([$class: 'GitSCM', branches: [[name: '*/main']],
-                        userRemoteConfigs: [[url: 'https://github.com/tharundevops4/terraform-jenkins.git']]
-                    ])
+                    checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    extensions: [[$class: 'CloneOption', depth: 1, shallow: true]],
+                    userRemoteConfigs: [[url: 'https://github.com/tharundevops4/terraform-jenkins.git']]
+])
                 }
             }
         }
