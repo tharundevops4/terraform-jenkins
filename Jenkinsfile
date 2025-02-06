@@ -22,7 +22,7 @@ pipeline {
                 script {
                     echo 'Checking out source code...'
                     checkout([$class: 'GitSCM', branches: [[name: '*/main']],
-                        userRemoteConfigs: [[url: 'https://github.com/tharundevops4/terraformtest.git']]
+                        userRemoteConfigs: [[url: 'https://github.com/tharundevops4/terraform-jenkins.git']]
                     ])
                 }
             }
