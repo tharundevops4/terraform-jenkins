@@ -7,12 +7,16 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('checkout') {
             steps {
-                echo 'Checking out source code...'
-                checkout scm
+                 script{
+                        dir("terraform-jenkins")
+                        {
+                            git "https://github.com/tharundevops4/terraform-jenkins.git"
+                        }
+                    }
+                }
             }
-        }
 
         stage('Initialize Terraform') {
             steps {
