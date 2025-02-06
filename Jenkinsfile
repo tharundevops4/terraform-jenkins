@@ -18,11 +18,11 @@ pipeline {
                 script {
                     echo 'Checking out source code...'
                     checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    extensions: [[$class: 'CloneOption', depth: 1, shallow: true]],
-                    userRemoteConfigs: [[url: 'https://github.com/tharundevops4/terraform-jenkins.git']]
-])
+                        $class: 'GitSCM',
+                        branches: [[name: '*/main']],
+                        extensions: [[$class: 'CloneOption', depth: 1, shallow: true]],
+                        userRemoteConfigs: [[url: 'https://github.com/tharundevops4/terraform-jenkins.git']]
+                    ])
                 }
             }
         }
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     echo 'Initializing Terraform...'
-                    sh 'terraform init'
+                    sh 'bash -c "terraform init"'
                 }
             }
         }
@@ -40,7 +40,9 @@ pipeline {
             steps {
                 script {
                     echo 'Generating Terraform execution plan...'
-                    sh 'terraform plan -var="aws_region=${AWS_REGION}" -var="instance_type=${params.EC2_INSTANCE_TYPE}"'
+                    sh """
+                        bash -c 'terraform plan -var="aws_region=${params.AWS_REGION}" -var="instance_type=${params.EC2_INSTANCE_TYPE}"'
+                    """
                 }
             }
         }
@@ -49,7 +51,9 @@ pipeline {
             steps {
                 script {
                     echo 'Applying Terraform changes...'
-                    sh 'terraform apply -auto-approve -var="aws_region=${AWS_REGION}" -var="instance_type=${params.EC2_INSTANCE_TYPE}"'
+                    sh """
+                        bash -c 'terraform apply -auto-approve -var="aws_region=${params.AWS_REGION}" -var="instance_type=${params.EC2_INSTANCE_TYPE}"'
+                    """
                 }
             }
         }
@@ -58,7 +62,7 @@ pipeline {
             steps {
                 script {
                     echo 'Fetching Terraform outputs...'
-                    sh 'terraform output'
+                    sh 'bash -c "terraform output"'
                 }
             }
         }
